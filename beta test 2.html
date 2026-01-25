@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mini-Examen del Estado Mental</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f4f8;
+    margin:0;
+}
+.screen{
+    display:none;
+    min-height:100vh;
+    padding:30px;
+    background:white;
+}
+.active{ display:block; }
+
+.container{
+    max-width:600px;
+    margin:auto;
+    text-align:center;
+}
+
+button{
+    padding:12px 20px;
+    margin-top:20px;
+    border:none;
+    border-radius:6px;
+    background:#007bff;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    font-size:16px;
+}
+
+.lang button{
+    background:#ddd;
+    color:black;
+    margin:5px;
+}
+
+img{
+    max-width:100%;
+    margin-top:20px;
+    border:2px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRODUÇÃO -->
+<div class="screen active" id="intro">
+<div class="container">
+<h1 id="title">Mini-Examen del Estado Mental</h1>
+
+<p id="desc">
+Esta prueba tiene fines educativos. Evalúa orientación, memoria,
+atención y comprensión mediante preguntas simples.
+</p>
+
+<div class="lang">
+<button onclick="setLang('es')">Español</button>
+<button onclick="setLang('pt')">Português</button>
+<button onclick="setLang('en')">English</button>
+</div>
+
+<button id="startBtn" onclick="next()">Iniciar</button>
+</div>
+</div>
+
+<!-- P1 -->
+<div class="screen" id="q1">
+<div class="container">
+<h2 id="t1">¿Qué fecha es hoy?</h2>
+<input id="a1">
+<button onclick="score(1,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P2 -->
+<div class="screen" id="q2">
+<div class="container">
+<h2 id="t2">¿Dónde estamos? (país o ciudad)</h2>
+<input id="a2">
+<button onclick="score(2,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P3 MEMORIZAR -->
+<div class="screen" id="q3a">
+<div class="container">
+<h2 id="t3a">Memorice estas palabras</h2>
+<h3>MESA – LLAVE – LIBRO</h3>
+<p id="memInfo">Tómese unos segundos para memorizarlas.</p>
+<button onclick="next()">Continuar</button>
+</div>
+</div>
+
+<div class="screen" id="q3b">
+<div class="container">
+<h2 id="t3b">Escriba las palabras memorizadas</h2>
+<input id="a3">
+<button onclick="score(3,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P4 -->
+<div class="screen" id="q4">
+<div class="container">
+<h2 id="t4">Reste 7 de 100 cinco veces</h2>
+<input id="a4">
+<button onclick="score(4,5)">Siguiente</button>
+</div>
+</div>
+
+<!-- P5 -->
+<div class="screen" id="q5">
+<div class="container">
+<h2 id="t5">¿Cuáles eran las palabras iniciales?</h2>
+<input id="a5">
+<button onclick="score(5,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P6 -->
+<div class="screen" id="q6">
+<div class="container">
+<h2 id="t6">Nombre un objeto para escribir y otro para ver la hora</h2>
+<input id="a6">
+<button onclick="score(6,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P7 -->
+<div class="screen" id="q7">
+<div class="container">
+<h2 id="t7">Repita: "Ni sí, ni no, ni pero"</h2>
+<input id="a7">
+<button onclick="score(7,3)">Siguiente</button>
+</div>
+</div>
+
+<!-- P8 IMAGEM -->
+<div class="screen" id="q8">
+<div class="container">
+<h2 id="t8">Observe la imagen y describa lo que ve</h2>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Clock_face.svg/512px-Clock_face.svg.png" alt="Reloj">
+
+<input id="a8">
+<button onclick="score(8,7)">Finalizar</button>
+</div>
+</div>
+
+<!-- RESULTADO -->
+<div class="screen" id="result">
+<div class="container">
+<h1 id="resTitle">Resultado</h1>
+<h2 id="scoreText"></h2>
+<p id="diag"></p>
+</div>
+</div>
+
+<script>
+let current = 0;
+let total = 0;
+const screens = document.querySelectorAll('.screen');
+let currentLang = "es";
+
+const texts = {
+es:{
+title:"Mini-Examen del Estado Mental",
+desc:"Esta prueba tiene fines educativos. Evalúa orientación, memoria, atención y comprensión mediante preguntas simples.",
+start:"Iniciar",
+q:["¿Qué fecha es hoy?","¿Dónde estamos? (país o ciudad)","Memorice estas palabras","Escriba las palabras memorizadas","Reste 7 de 100 cinco veces","¿Cuáles eran las palabras iniciales?","Nombre un objeto para escribir y otro para ver la hora","Repita: \"Ni sí, ni no, ni pero\"","Observe la imagen y describa lo que ve"],
+res:"Resultado"
+},
+pt:{
+title:"Mini Exame do Estado Mental",
+desc:"Esta prova tem fins educativos. Avalia orientação, memória, atenção e compreensão.",
+start:"Iniciar",
+q:["Que data é hoje?","Onde estamos?","Memorize as palavras","Escreva as palavras","Subtraia 7 de 100","Quais eram as palavras?","Diga um objeto para escrever e outro para ver horas","Repita: \"Nem sim, nem não, nem porém\"","Observe a imagem e descreva"],
+res:"Resultado"
+},
+en:{
+title:"Mini Mental State Examination",
+desc:"This test evaluates orientation, memory, attention and comprehension.",
+start:"Start",
+q:["What date is today?","Where are we?","Memorize the words","Write the words","Subtract 7 from 100","What were the words?","Name two objects","Repeat the sentence","Observe the image and describe it"],
+res:"Result"
+}
+};
+
+function setLang(lang){
+currentLang = lang;
+document.getElementById("title").innerText = texts[lang].title;
+document.getElementById("desc").innerText = texts[lang].desc;
+document.getElementById("startBtn").innerText = texts[lang].start;
+document.getElementById("resTitle").innerText = texts[lang].res;
+
+document.getElementById("t1").innerText = texts[lang].q[0];
+document.getElementById("t2").innerText = texts[lang].q[1];
+document.getElementById("t3a").innerText = texts[lang].q[2];
+document.getElementById("t3b").innerText = texts[lang].q[3];
+document.getElementById("t4").innerText = texts[lang].q[4];
+document.getElementById("t5").innerText = texts[lang].q[5];
+document.getElementById("t6").innerText = texts[lang].q[6];
+document.getElementById("t7").innerText = texts[lang].q[7];
+document.getElementById("t8").innerText = texts[lang].q[8];
+}
+
+function next(){
+screens[current].classList.remove("active");
+current++;
+screens[current].classList.add("active");
+}
+
+function score(q,p){
+if(document.getElementById("a"+q).value.trim()) total += p;
+next();
+if(current === screens.length-1){
+document.getElementById("scoreText").innerText = total+" / 30";
+let d = "Función cognitiva preservada";
+if(total < 25) d = "Posible deterioro leve";
+if(total < 18) d = "Deterioro moderado";
+if(total < 10) d = "Deterioro grave";
+document.getElementById("diag").innerText = d;
+}
+}
+</script>
+
+</body>
+</html>
