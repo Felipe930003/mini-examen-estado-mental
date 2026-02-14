@@ -156,7 +156,7 @@ atención y comprensión mediante preguntas simples.
 <div class="container">
 <h2 id="t8">Observe la imagen y describa lo que ve</h2>
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Clock_face.svg/512px-Clock_face.svg.png" alt="Reloj">
+<img src="Captura de tela 2026-02-06 225323.png" alt="Figura geométrica">
 
 <input id="a8">
 <button onclick="score(8,7)">Finalizar</button>
@@ -239,6 +239,10 @@ document.getElementById("diag").innerText = d;
 }
 }
 </script>
+<script>
+if (performance.navigation.type === 1) {
+    console.log("Reload detectado (Live Server)");
+}
 
 </body>
 </html>
